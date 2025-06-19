@@ -29,7 +29,9 @@ module.exports = async (req, res) => {
         const imageRes = await axios.get(folder.images[i], {
           responseType: "arraybuffer",
         });
-        zipFolder.file(`image_${i + 1}.jpg`, imageRes.data);
+        const urlParts = folder.images[i].split("/");
+        const originalFileName = urlParts[urlParts.length - 1] || `image_${i + 1}.jpg`;
+        zipFolder.file(originalFileName, imageRes.data);
       } catch (err) {
         console.error("Image error:", folder.images[i]);
       }
